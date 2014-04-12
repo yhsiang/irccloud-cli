@@ -8,8 +8,9 @@ Developement
 
 Usage
 =================
-1. `$ npm install -g irccloud-cli`
-2. `$ ic -e <email> -p <password>`
+1. `$ npm install -g LiveScript`
+2. `$ npm install -g irccloud-cli`
+3. `$ ic -e <email> -p <password>`
 
 License
 =================
