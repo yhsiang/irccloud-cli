@@ -4,7 +4,8 @@ program = require 'commander'
 lib = path.join path.dirname(fs.realpathSync(__filename)), '../lib'
 irccloud = require lib
 
-version = JSON.parse fs.readFileSync __dirname + '/../package.json', 'utf8' .version
+console.log lib
+version = JSON.parse fs.readFileSync lib + '/../package.json', 'utf8' .version
 program
   .version version
   .usage '-e <email> -p <password>'
