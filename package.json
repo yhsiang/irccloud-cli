@@ -6,6 +6,7 @@
   "bin": {
     "ic": "./bin/ic"
   },
+  "main": "index.ls",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
