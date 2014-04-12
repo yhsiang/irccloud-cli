@@ -1,6 +1,6 @@
 IRCCloud CLI
 =================
-irccloud commandline interface inspire baseBot and irccloud-tools
+irccloud commandline interface inspire [baseBot](https://github.com/voldyman/baseBot) and [IRCCloud API](https://github.com/irccloud/irccloud-tools/wiki/API-Overview)
 
 Developement
 =================
