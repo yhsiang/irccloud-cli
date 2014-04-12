@@ -1,7 +1,8 @@
 #!/usr/bin/env lsc
 require! <[fs path]>
 program = require 'commander'
-irccloud = require '../'
+lib = path.join path.dirname(fs.realpathSync(__filename)), '../lib'
+irccloud = require lib
 
 version = JSON.parse fs.readFileSync __dirname + '/../package.json', 'utf8' .version
 program
