@@ -10,7 +10,7 @@ program
   .usage '-e <email> -p <password>'
   .option '-e, --email <email>', 'irccloud account'
   .option '-p, --password <password>', 'irccloud password'
-  .option '-p, --path <config file path>', 'config.json file path'
+  .option '-P, --path <config file path>', 'config.json file path'
   .option '-f, --filter <string>', 'filter by string // TODO'
   .option '-c, --channel <channel>', 'only show #channel message (need # first)'
   .parse process.argv
@@ -20,9 +20,10 @@ if program.path
   email = config.email
   password = config.password
 
-if !program.email and !program.password
-  program.help!
-  process.exit -1
+if !config
+  if !program.email and !program.password
+    program.help!
+    process.exit -1
 
 irccloud.connect do
   email: email || program.email
