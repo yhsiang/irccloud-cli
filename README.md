@@ -9,8 +9,7 @@ Developement
 
 Install
 =================
-1. `$ npm install -g LiveScript`
-2. `$ npm install -g irccloud-cli`
+1. `$ npm install -g irccloud-cli`
 
 Usage
 =================
