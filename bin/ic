@@ -1,0 +1,32 @@
+#!/usr/bin/env lsc
+require! <[fs path]>
+program = require 'commander'
+irccloud = require '../lib'
+
+version = JSON.parse fs.readFileSync __dirname + '/../package.json', 'utf8' .version
+program
+  .version version
+  .usage '-e <email> -p <password>'
+  .option '-e, --email <email>', 'irccloud account'
+  .option '-p, --password <password>', 'irccloud password'
+  .option '-p, --path <config file path>', 'config.json file path'
+  .option '-f, --filter <string>', 'filter by string // TODO'
+  .option '-c, --channel <channel>', 'only show #channel message (need # first)'
+  .parse process.argv
+
+if program.path
+  config = JSON.parse fs.readFileSync path.resolve(program.path) + '/config.json', 'utf8'
+  email = config.email
+  password = config.password
+
+if !program.email and !program.password
+  program.help!
+  process.exit -1
+
+irccloud.connect do
+  email: email || program.email
+  password: password || program.password
+  filter: program.filter || ''
+  channel: program.channel || ''
+
+

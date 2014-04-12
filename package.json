@@ -1,0 +1,16 @@
+{
+  "name": "irccloud-cli",
+  "version": "0.1.0",
+  "description": "",
+  "bin": "ic",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yuan Hsiang Cheng ",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "~2.2.0",
+    "request": "~2.34.0",
+    "ws": "~0.4.31"
+  }
+}
