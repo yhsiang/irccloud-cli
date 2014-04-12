@@ -14,17 +14,17 @@ Install
 
 Usage
 =================
-Usage: ic -e <email> -p <password>
+  Usage: `ic -e <email> -p <password>`
 
-Options:
+  Options:
 
-  -h, --help                     output usage information
-  -V, --version                  output the version number
-  -e, --email <email>            irccloud account
-  -p, --password <password>      irccloud password
-  -P, --path <config file path>  config.json file path
-  -f, --filter <string>          filter by string // TODO
-  -c, --channel <channel>        only show #channel message (need # first)
+    -h, --help                     output usage information
+    -V, --version                  output the version number
+    -e, --email <email>            irccloud account
+    -p, --password <password>      irccloud password
+    -P, --path <config file path>  config.json file path
+    -f, --filter <string>          filter by string // TODO
+    -c, --channel <channel>        only show #channel message (need # first)
 
 License
 =================
