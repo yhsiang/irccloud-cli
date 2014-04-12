@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "description": "irccloud commandline interface",
   "keywords": ["command", "irccloud", "websocket"],
-  "bin": "ic",
+  "bin": {
+    "ic": "./bin/ic"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,5 +16,8 @@
     "commander": "~2.2.0",
     "request": "~2.34.0",
     "ws": "~0.4.31"
+  },
+  "devDependencies": {
+    "LiveScript": "~1.2.x"
   }
 }
