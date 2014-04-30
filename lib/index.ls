@@ -13,11 +13,23 @@ path =
 get-session-key = (user, next) ->
   (err, res, body) <- request.post do
     url: base-url + path.token
+  ok = JSON.parse body .success
+  if ok
+    console.log 'Successfully obtained authentication token'
+  else
+    console.log body
 
   user.token = JSON.parse body .token
   (err, res, body) <- request.post do
     url: base-url + path.login
     form: user
+    headers:
+        'x-auth-formtoken': user.token
+  ok = JSON.parse body .success
+  if ok
+    console.log 'Successfully logged in as ' + user.email
+  else
+    console.log body
   { session } = JSON.parse body
   next session
 
