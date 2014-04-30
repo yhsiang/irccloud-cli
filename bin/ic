@@ -10,13 +10,13 @@ program
   .usage '-e <email> -p <password>'
   .option '-e, --email <email>', 'irccloud account'
   .option '-p, --password <password>', 'irccloud password'
-  .option '-P, --path <config file path>', 'config.json file path'
+  .option '-C, --conf <config file>', 'config.json file'
   .option '-f, --filter <string>', 'filter by string // TODO'
   .option '-c, --channel <channel>', 'only show #channel message (need # first)'
   .parse process.argv
 
-if program.path
-  config = JSON.parse fs.readFileSync path.resolve(program.path) + '/config.json', 'utf8'
+if program.conf
+  config = JSON.parse fs.readFileSync path.resolve(program.conf), 'utf8'
   email = config.email
   password = config.password
 
