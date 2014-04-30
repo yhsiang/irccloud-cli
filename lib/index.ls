@@ -18,6 +18,8 @@ get-session-key = (user, next) ->
   (err, res, body) <- request.post do
     url: base-url + path.login
     form: user
+    headers:
+        'x-auth-formtoken': user.token
   { session } = JSON.parse body
   next session
 
