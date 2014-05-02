@@ -1,4 +1,5 @@
-require! <[request]>
+require! <[request cologger]>
+log = cologger
 WebSocket = require 'ws'
 
 base-url = 'https://www.irccloud.com'
@@ -9,30 +10,29 @@ path =
   stream: '/chat/stream'
 
 
-
-get-session-key = (user, next) ->
+get-session-key = (options, next) ->
+  {user, verbose} = options
   (err, res, body) <- request.post do
     url: base-url + path.token
-  ok = JSON.parse body .success
-  if ok
-    console.log 'Successfully obtained authentication token'
-  else
-    console.log body
-
-  user.token = JSON.parse body .token
+  return log.error err if err
+  {success, token} = JSON.parse body
+  if success
+    log.success 'Successfully obtained authentication token'
+  else if verbose
+    log.error body
+  user <<< token: token
   (err, res, body) <- request.post do
     url: base-url + path.login
     form: user
     headers:
         'x-auth-formtoken': user.token
-  ok = JSON.parse body .success
-  if ok
-    console.log 'Successfully logged in as ' + user.email
-  else
-    console.log body
-  { session } = JSON.parse body
+  return log.error err if err
+  {success, session} = JSON.parse body
+  if success
+    log.success 'Successfully logged in as ' + user.email
+  else if verbose
+    log.error body
   next session
-
 
 connect-websocket = (session, next) ->
 
@@ -53,16 +53,16 @@ connect-websocket = (session, next) ->
 
 show-buffer = (options, msg) ->
   return if '' isnt options.channel and msg.chan isnt options.channel
-  console.log ' [' + msg.chan + '] <' + msg.from + '> ' + msg.msg
+  log.success ' [' + msg.chan + '] <' + msg.from + '> ' + msg.msg
 
 export connect = (options) ->
   session <- get-session-key do
-    email: options.email
-    password: options.password
+    user:
+      email: options.email
+      password: options.password
+    verbose: options.verbose
   res <- connect-websocket session
-
+  log.info 'Waiting for message ...' if res.bid < 0
   switch res.type
   | 'buffer_msg' => show-buffer options, res
   | otherwise => ''
-
-

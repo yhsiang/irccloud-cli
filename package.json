@@ -1,6 +1,6 @@
 {
   "name": "irccloud-cli",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "irccloud commandline interface",
   "keywords": ["command", "irccloud", "websocket"],
   "bin": {
