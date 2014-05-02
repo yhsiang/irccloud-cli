@@ -25,6 +25,11 @@ Usage
     -f, --filter <string>          filter by string // TODO
     -c, --channel <channel>        only show #channel message (need # first)
     -v, --verbose                  debug mode
+    -l, --log <log directory path> create logs directory to save msg
+
+  Log directory structure
+  [Channel.Year.Month]
+
 
 License
 =================

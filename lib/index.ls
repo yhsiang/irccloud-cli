@@ -1,4 +1,4 @@
-require! <[request cologger]>
+require! <[fs request cologger moment]>
 log = cologger
 WebSocket = require 'ws'
 
@@ -53,7 +53,22 @@ connect-websocket = (session, next) ->
 
 show-buffer = (options, msg) ->
   return if '' isnt options.channel and msg.chan isnt options.channel
-  log.success ' [' + msg.chan + '] <' + msg.from + '> ' + msg.msg
+  if options.log-path
+    save-log options.log-path, msg
+  else
+    log.success ' [' + msg.chan + '] <' + msg.from + '> ' + msg.msg
+
+save-log = (log-path, msg-buffer) ->
+  now = moment!
+  { chan, from, msg } = msg-buffer
+  filename = "#{chan}" + now.format '.YYYY-MM'
+  full-path = log-path + "/#{filename}"
+  message = now.format('HH:mm') + " #{from}> #{msg}\n"
+  if fs.existsSync full-path
+    fs.appendFileSync full-path, message, 'utf-8'
+  else
+    log.success "Start to save logs in #{full-path}"
+    fs.writeFileSync full-path, message, 'utf-8'
 
 export connect = (options) ->
   session <- get-session-key do
