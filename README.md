@@ -24,6 +24,7 @@ Usage
     -P, --path <config file path>  config.json file path
     -f, --filter <string>          filter by string // TODO
     -c, --channel <channel>        only show #channel message (need # first)
+    -v, --verbose                  debug mode
 
 License
 =================
