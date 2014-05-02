@@ -28,7 +28,8 @@ Usage
     -l, --log <log directory path> create logs directory to save msg
 
   Log directory structure
-  [Channel.Year.Month]
+  logs
+    |__ [Channel.Year.Month]
 
 
 License
