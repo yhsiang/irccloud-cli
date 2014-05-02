@@ -12,7 +12,7 @@ program
   .option '-p, --password <password>', 'irccloud password'
   .option '-P, --path <config file path>', 'config.json file path'
   .option '-f, --filter <string>', 'filter by string // TODO'
-  .option '-c, --channel <channel>', 'only show #channel message (need # first)'
+  .option '-c, --channel <channel>', 'only show #channel message (need # first) //TODO'
   .option '-v, --verbose', 'debug mode'
   .option '-l, --log <log directory path>', 'create logs directory to save logs'
   .parse process.argv

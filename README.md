@@ -23,7 +23,7 @@ Usage
     -p, --password <password>      irccloud password
     -P, --path <config file path>  config.json file path
     -f, --filter <string>          filter by string // TODO
-    -c, --channel <channel>        only show #channel message (need # first)
+    -c, --channel <channel>        only show #channel message (need # first) // TODO
     -v, --verbose                  debug mode
     -l, --log <log directory path> create logs directory to save msg
 
