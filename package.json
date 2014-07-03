@@ -27,5 +27,8 @@
     "LiveScript": "~1.2.x",
     "cologger": "~1.1.2",
     "moment": "~2.6.0"
+  },
+  "peerDependencies": {
+    "LiveScript": "~1.2.x"
   }
 }
