@@ -15,8 +15,10 @@ get-session-key = (options, next) ->
   {success, token} = JSON.parse body
   if success
     log.success 'Successfully obtained authentication token'
-  else if verbose
-    log.error body
+  else
+    log.error body if verbose
+    return log.error 'Failed to obtained authentication token'
+
   user <<< token: token
   (err, res, body) <- request.post do
     url: 'https://' + server + path.login
@@ -27,8 +29,9 @@ get-session-key = (options, next) ->
   {success, session} = JSON.parse body
   if success
     log.success 'Successfully logged in as ' + user.email
-  else if verbose
-    log.error body
+  else
+    log.error 'Failed to log in as ' + user.email
+    return log.error body if verbose
   next session
 
 connect-websocket = (server, session, next) ->
