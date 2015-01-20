@@ -10,11 +10,13 @@ program
   .usage '-e <email> -p <password>'
   .option '-e, --email <email>', 'irccloud account'
   .option '-p, --password <password>', 'irccloud password'
+  .option '-s, --server <host>', 'irccloud server name (default www.irccloud.com)'
   .option '-P, --path <config file path>', 'config.json file path'
   .option '-f, --filter <string>', 'filter by string // TODO'
   .option '-c, --channel <channel>', 'only show #channel message (need # first) //TODO'
   .option '-v, --verbose', 'debug mode'
   .option '-l, --log <log directory path>', 'create logs directory to save logs'
+
   .parse process.argv
 
 if program.path
@@ -34,6 +36,7 @@ if program.log
 irccloud.connect do
   email: email || program.email
   password: password || program.password
+  server: program.server || 'www.irccloud.com'
   filter: program.filter || ''
   channel: program.channel || ''
   log-path: log-path
