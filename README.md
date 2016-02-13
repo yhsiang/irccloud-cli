@@ -1,4 +1,4 @@
-# IRCCloud CLI [![Build Status](https://travis-ci.org/yhsiang/irccloud-cli.svg?branch=master)](https://travis-ci.org/yhsiang/irccloud-cli) [![Coverage Status](https://coveralls.io/repos/github/yhsiang/irccloud-cli/badge.svg?branch=master)](https://coveralls.io/github/yhsiang/irccloud-cli?branch=master)
+# IRCCloud CLI [![Build Status](https://travis-ci.org/yhsiang/irccloud-cli.svg?branch=master)](https://travis-ci.org/yhsiang/irccloud-cli) [![Coverage Status](https://coveralls.io/repos/github/yhsiang/irccloud-cli/badge.svg?branch=master)](https://coveralls.io/github/yhsiang/irccloud-cli?branch=master) [![Build status](https://ci.appveyor.com/api/projects/status/ahh7upogc1reaitt?svg=true)](https://ci.appveyor.com/project/yhsiang/irccloud-cli)
 
 irccloud commandline interface inspire [baseBot](https://github.com/voldyman/baseBot) and [IRCCloud API](https://github.com/irccloud/irccloud-tools/wiki/API-Overview)
 ![screenshot](https://raw.github.com/yhsiang/irccloud-cli/master/screenshot.png "screenshot")

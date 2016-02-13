@@ -15,8 +15,8 @@
     "build:lib": "babel ./src/lib.js -o ./lib/index.js",
     "build": "npm run build:lib && babel ./src/bin.js -o ./bin/ic && chmod 755 ./bin/ic",
     "prepublish": "npm run build",
-    "tape": "npm run build && tape -r babel-register test/*.js",
-    "test:cov": "npm run build && babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/tape -r babel-register test/*.js",
+    "tape": "tape -r babel-register test/*.js",
+    "test:cov": "babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/tape -r babel-register test/*.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "test": "npm run test:cov && npm run coveralls"
   },
@@ -41,6 +41,7 @@
     "babel-register": "^6.5.2",
     "coveralls": "^2.11.6",
     "nock": "^7.0.2",
+    "sinon": "^1.17.3",
     "tape": "^4.4.0"
   },
   "engines": {

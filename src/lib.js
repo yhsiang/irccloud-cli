@@ -1,23 +1,27 @@
 import request from 'request-promise'
-import log from 'cologger'
 import WebSocket from 'ws'
+import log from 'cologger'
 
-export function getToken() {
-  return request({
+export async function getToken() {
+  let res = JSON.parse(await request({
       method: 'POST',
       url: `https://www.irccloud.com/chat/auth-formtoken`,
-  });
+  }))
+  if (!res.success) throw(res)
+  return res.token
 }
 
-export function login({token, user}) {
-  return request({
+export async function login({token, user}) {
+  let res = JSON.parse(await request({
     method: 'POST',
     form: Object.assign({token}, user),
     url: `https://www.irccloud.com/chat/login`,
     headers: {
       'x-auth-formtoken':token
     },
-  })
+  }))
+  if (!res.success) throw(res)
+  return res
 }
 
 export function backlog({url, streamid, session}) {
@@ -32,50 +36,41 @@ export function backlog({url, streamid, session}) {
 
 export function createWebSocket({ websocket_host, session, websocket_port}) {
   let streamid, url = `wss://${websocket_host}/`
-  if (websocket_port !== 443) url = `ws://${websocket_host}:${websocket_port}/`
+  if (websocket_port) url = `ws://${websocket_host}:${websocket_port}/`
   const ws = new WebSocket(url, {
     origin: `https://${websocket_host}`,
     headers: {
       'Cookie': `session=${session}`,
     }
   })
-  ws.on('message', async (it) => {
-    const ws_res = JSON.parse(it)
-    switch(ws_res.type) {
-      case 'header':
-        streamid = ws_res.streamid
-        break
-      case 'oob_include':
-        let res = JSON.parse(await backlog({
-          streamid, session,
-          url: ws_res.url,
-        }))
-        break
-      case 'buffer_msg':
-        log.success(`[${ws_res.chan}] <${ws_res.from}> ${ws_res.msg}`)
-        break
-      default:
+  ws.on('message', (message) => {
+    const ws_res = JSON.parse(message)
+    if (ws_res.type === 'header') {
+      streamid = ws_res.streamid
+    }
+    if (ws_res.type === 'oob_include') {
+      backlog({
+        streamid, session,
+        url: ws_res.url,
+      })
+    }
+    if (ws_res.type === 'buffer_msg') {
+      log.info(`[${ws_res.chan}] <${ws_res.from}> ${ws_res.msg}`)
+    }
+    if (ws_res.type === 'close') {
+      ws.send('close')
     }
   })
   return ws
 }
 
-export async function connect(user) {
-  try {
-    // get auth token
-    let res = JSON.parse(await getToken())
-    if (!res.success) log.error(res.message)
-    log.success('Successfully obtained authentication token')
-    // handle login
-    res = JSON.parse(await login({
-      token: res.token,
-      user
-    }))
-    if (!res.success) log.error(res.message)
-    log.success(`Successfully logged in as ${user.email}`)
-    // handle WebSocket
-    createWebSocket(Object.assign({ websocket_port: 443 }, res))
-  } catch (err) {
-    log.error(err.message)
-  }
+export async function connect(user){
+  // get auth token
+  let token = await getToken()
+  log.success('Successfully obtained authentication token!')
+  // handle login
+  let res = await login({ token, user })
+  log.success(`Successfully logged in as ${user.email}!`)
+  // handle WebSocket
+  return createWebSocket(res)
 }

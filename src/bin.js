@@ -6,7 +6,7 @@ import program from 'commander'
 import * as irccloud from '../lib'
 
 const {version} = JSON.parse(fs.readFileSync(__dirname + '/../package.json'), 'utf8')
-let config;
+let config
 
 program
   .version(version)
