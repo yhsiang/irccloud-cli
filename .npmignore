@@ -1,4 +1,5 @@
 node_modules/
 doc/
+src/
 npm-debug.log
 config.json
