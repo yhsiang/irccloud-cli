@@ -16,7 +16,7 @@
     "build": "npm run build:lib && babel ./src/bin.js -o ./bin/ic && chmod 755 ./bin/ic",
     "prepublish": "npm run build",
     "tape": "tape -r babel-register test/*.js",
-    "test:cov": "babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/tape -r babel-register test/*.js",
+    "test:cov": "babel-node node_modules/babel-istanbul/lib/cli.js cover node_modules/.bin/tape -r babel-register test/*.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "test": "npm run test:cov && npm run coveralls"
   },
