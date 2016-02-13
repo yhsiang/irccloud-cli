@@ -18,6 +18,13 @@ irccloud commandline interface inspire [baseBot](https://github.com/voldyman/bas
     -V, --version                  output the version number
     -P, --path <config file path>  config.json file path
   ```
+  Config file example:
+  ```
+  {
+    "email": "IRCCloud ACCOUNT - EMAIL",
+    "password": "PASSWORD"
+  }
+  ```
 #  Changelog
 
 ## Version 0.3.0
