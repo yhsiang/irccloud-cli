@@ -2,7 +2,7 @@ import test from 'tape'
 import nock from 'nock'
 import {Server} from 'ws'
 import 'babel-polyfill'
-import * as irccloud from '../lib'
+import * as irccloud from '../src/lib'
 
 const wss = new Server({port: 8080});
 wss.on('connection', (socket) => {
