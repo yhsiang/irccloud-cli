@@ -17,7 +17,7 @@
     "prepublish": "npm run build",
     "tape": "npm run build && tape -r babel-register test/*.js",
     "test:cov": "npm run build && babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/tape -r babel-register test/*.js",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls && rm -rf ./coverage",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
     "test": "npm run test:cov && npm run coveralls"
   },
   "repository": {
