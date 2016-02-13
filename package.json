@@ -13,7 +13,7 @@
   "main": "./lib/index.js",
   "scripts": {
     "build:lib": "babel ./src/lib.js -o ./lib/index.js",
-    "build": "npm run build:lib && babel ./src/bin.js -o ./bin/ic",
+    "build": "npm run build:lib && babel ./src/bin.js -o ./bin/ic && chmod 755 ./bin/ic",
     "prepublish": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
