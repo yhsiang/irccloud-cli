@@ -18,7 +18,7 @@
     "tape": "tape -r babel-register test/*.js",
     "test:cov": "babel-node node_modules/babel-istanbul/lib/cli.js cover node_modules/tape/bin/tape -r babel-register test/*.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "test": "npm run test:cov && npm run coveralls"
+    "test": "npm run test:cov"
   },
   "repository": {
     "type": "git",
