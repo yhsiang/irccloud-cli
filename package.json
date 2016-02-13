@@ -1,6 +1,6 @@
 {
   "name": "irccloud-cli",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "irccloud commandline interface",
   "keywords": [
     "command",
@@ -14,6 +14,7 @@
   "scripts": {
     "build:lib": "babel ./src/lib.js -o ./lib/index.js",
     "build": "npm run build:lib && babel ./src/bin.js -o ./bin/ic",
+    "prepublish": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
