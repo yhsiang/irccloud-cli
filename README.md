@@ -29,6 +29,12 @@ irccloud commandline interface inspire [baseBot](https://github.com/voldyman/bas
   Note: there is no '/' at the end of host url.
 #  Changelog
 
+## Version 0.4.0
+14 Feb 2016
+  * Add test cases
+  * Support reconnecting when client is terminated by server.
+  * Support user to assign the host.
+
 ## Version 0.3.0
 13 Feb 2016
   * Rewrite with ES2015, implement the minimal necessary function.
