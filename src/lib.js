@@ -2,16 +2,16 @@ import request from 'request-promise'
 import WebSocket from 'ws'
 import log from 'cologger'
 
-export async function getToken() {
+async function getToken() {
   let res = JSON.parse(await request({
       method: 'POST',
       url: `https://www.irccloud.com/chat/auth-formtoken`,
   }))
-  if (!res.success) throw(res)
+  if (!res.success) return Promise.reject(res)
   return res.token
 }
 
-export async function login({token, user}) {
+async function login({token, user}) {
   let res = JSON.parse(await request({
     method: 'POST',
     form: Object.assign({token}, user),
@@ -20,11 +20,11 @@ export async function login({token, user}) {
       'x-auth-formtoken':token
     },
   }))
-  if (!res.success) throw(res)
+  if (!res.success) return Promise.reject(res)
   return res
 }
 
-export function backlog({url, streamid, session}) {
+function backlog({url, streamid, session}) {
   return request({
     url: `https://www.irccloud.com${url}?streamid=${streamid}`,
     headers: {
@@ -34,7 +34,7 @@ export function backlog({url, streamid, session}) {
   })
 }
 
-export function createWebSocket({ websocket_host, session, websocket_port}) {
+function createWebSocket({ websocket_host, session, websocket_port}) {
   let streamid, url = `wss://${websocket_host}/`
   if (websocket_port) url = `ws://${websocket_host}:${websocket_port}/`
   const ws = new WebSocket(url, {
@@ -43,7 +43,10 @@ export function createWebSocket({ websocket_host, session, websocket_port}) {
       'Cookie': `session=${session}`,
     }
   })
-  ws.on('message', (message) => {
+  ws.on('error', (error) => {
+    log.error(error.message)
+  })
+  ws.on('message', message => {
     const ws_res = JSON.parse(message)
     if (ws_res.type === 'header') {
       streamid = ws_res.streamid
@@ -57,9 +60,10 @@ export function createWebSocket({ websocket_host, session, websocket_port}) {
     if (ws_res.type === 'buffer_msg') {
       log.info(`[${ws_res.chan}] <${ws_res.from}> ${ws_res.msg}`)
     }
-    if (ws_res.type === 'close') {
-      ws.send('close')
-    }
+  })
+  ws.on('close', () => {
+    log.info(`Reconnecting...`)
+    return createWebSocket({websocket_host, session, websocket_port})
   })
   return ws
 }
