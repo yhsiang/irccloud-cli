@@ -2,20 +2,23 @@ import request from 'request-promise'
 import WebSocket from 'ws'
 import log from 'cologger'
 
-async function getToken() {
+async function getToken(host) {
   let res = JSON.parse(await request({
       method: 'POST',
-      url: `https://www.irccloud.com/chat/auth-formtoken`,
+      url: `${host}/chat/auth-formtoken`,
   }))
   if (!res.success) return Promise.reject(res)
   return res.token
 }
 
-async function login({token, user}) {
+async function login({token, config}) {
   let res = JSON.parse(await request({
     method: 'POST',
-    form: Object.assign({token}, user),
-    url: `https://www.irccloud.com/chat/login`,
+    form: Object.assign({token}, {
+      email: config.email,
+      password: config.password,
+    }),
+    url: `${config.host}/chat/login`,
     headers: {
       'x-auth-formtoken':token
     },
@@ -24,9 +27,9 @@ async function login({token, user}) {
   return res
 }
 
-function backlog({url, streamid, session}) {
+function backlog({url, streamid, session, host}) {
   return request({
-    url: `https://www.irccloud.com${url}?streamid=${streamid}`,
+    url: `${host}${url}?streamid=${streamid}`,
     headers: {
       'Cookie': `session=${session}`,
       'Accept-Encoding': 'gzip'
@@ -34,7 +37,7 @@ function backlog({url, streamid, session}) {
   })
 }
 
-function createWebSocket({ websocket_host, session, websocket_port}) {
+function createWebSocket({ websocket_host, session, websocket_port, host }) {
   let streamid, url = `wss://${websocket_host}/`
   if (websocket_port) url = `ws://${websocket_host}:${websocket_port}/`
   const ws = new WebSocket(url, {
@@ -53,6 +56,7 @@ function createWebSocket({ websocket_host, session, websocket_port}) {
     }
     if (ws_res.type === 'oob_include') {
       backlog({
+        host,
         streamid, session,
         url: ws_res.url,
       })
@@ -63,18 +67,21 @@ function createWebSocket({ websocket_host, session, websocket_port}) {
   })
   ws.on('close', () => {
     log.info(`Reconnecting...`)
-    return createWebSocket({websocket_host, session, websocket_port})
+    return createWebSocket({websocket_host, session, websocket_port, host})
   })
   return ws
 }
 
-export async function connect(user){
+export async function connect(conf){
+  const config = Object.assign({
+    host: 'https://www.irccloud.com'
+  }, conf)
   // get auth token
-  let token = await getToken()
+  let token = await getToken(config.host)
   log.success('Successfully obtained authentication token!')
   // handle login
-  let res = await login({ token, user })
-  log.success(`Successfully logged in as ${user.email}!`)
+  let res = await login({ token, config })
+  log.success(`Successfully logged in as ${config.email}!`)
   // handle WebSocket
-  return createWebSocket(res)
+  return createWebSocket(Object.assign({host: config.host}, res))
 }

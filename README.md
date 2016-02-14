@@ -21,10 +21,12 @@ irccloud commandline interface inspire [baseBot](https://github.com/voldyman/bas
   Config file example:
   ```
   {
+    "host": "https://www.irccloud.com",
     "email": "IRCCloud ACCOUNT - EMAIL",
     "password": "PASSWORD"
   }
   ```
+  Note: there is no '/' at the end of host url.
 #  Changelog
 
 ## Version 0.3.0
